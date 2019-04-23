@@ -1,13 +1,17 @@
-package part1.lesson02.task01;
+package org.lesson02.task01;
 
 /**
  * Пример вызова исключительных ситуаций
  */
-public class HelloWorld {
+class HelloWorld {
+
+    private HelloWorld() {
+    }
+
     /**
      * Выбрасывает NullPointerException
      */
-    public static void tryToCallNull() {
+    static void tryToCallNull() {
         String stringNull = null;
         stringNull.hashCode();
     }
@@ -15,24 +19,24 @@ public class HelloWorld {
     /**
      * Выбрасывает ArrayIndexOutOfBoundException
      */
-    public static void tryToCallWrongIndex() {
+    static void tryToCallWrongIndex() {
         String[] array = new String[3];
         String stringElement = array[9];
     }
 
     /**
      * Выбрасывает MyException
-     * @throws MyException
+     * @throws MyException реализация обрабатываемой(checked) ошибки
      */
-    public static void tryToThrowMyException() throws MyException {
+    static void tryToThrowMyException() throws MyException {
         throw new MyException();
     }
 
     /**
      * Выбрасывает MyRunTimeException
-     * @throws MyRunTimeException
+     * @throws MyRunTimeException реализация необрабатываемой(unchecked) ошибки
      */
-    public static void tryToThrowMyRunTimeException() {
+    static void tryToThrowMyRunTimeException() {
         throw new MyRunTimeException();
     }
 }
