@@ -65,6 +65,12 @@ public class Person {
         return false;
     }
 
+    /**
+     * Генерирует объекты {@link Person}
+     *
+     * @return Сгенерированный объект
+     */
+
     public static Person generatePerson() {
         SecureRandom randomizer = new SecureRandom();
         Sex[] sexes = Sex.class.getEnumConstants();

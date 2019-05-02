@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Принимает из консоли количество генерируемых объектов. Сортирует двумя способами.
+ */
+
 public class Main {
     public static void main(String[] args) {
 
@@ -13,7 +17,7 @@ public class Main {
             System.out.println("Введите количество генерируемых объектов типа Person  для сортировки");
             int personCount = scanner.nextInt();
             if (personCount < 10000) {
-                System.out.printf("Минимально допустимое значение - 10000.\n " +
+                System.out.print("Минимально допустимое значение - 10000.\n " +
                         "Введено значение меньше минимально допустимого. \n" +
                         "Будет сгенерированно 10000 значений.\n");
                 personCount = 10000;
@@ -24,7 +28,9 @@ public class Main {
         }
 
         Sortable<Person> firstAlgorithm = new PersonSorting();
-       /* Sortable<Person> alternativeAlgorithm = new PersonAlternativeSorting();*/
+        Sortable<Person> alternativeAlgorithm = new PersonBubbleSort();
+
+        List<Person> copyPersonList = new ArrayList<>(personList);
 
         long startFirstAlgorithm = System.currentTimeMillis();
         firstAlgorithm.sort(personList);
@@ -33,14 +39,15 @@ public class Main {
         personList.forEach(person -> System.out.println(person + "\n"));
 
         long processingTime = endFirstAlgorithm - startFirstAlgorithm;
-        System.out.println("Время работы первого алгоритма: " + processingTime + " мс");
 
-        /*long startAlternativeAlgorithm = System.currentTimeMillis();
+        long startAlternativeAlgorithm = System.currentTimeMillis();
         alternativeAlgorithm.sort(copyPersonList);
         long endAlternativeAlgorithm = System.currentTimeMillis();
 
         copyPersonList.forEach(person -> System.out.println(person + "\n"));
-        processingTime = endAlternativeAlgorithm - startAlternativeAlgorithm;
-        System.out.println("Время работы второго алгоритма: " + processingTime + " мс");*/
+        long processingTime2 = endAlternativeAlgorithm - startAlternativeAlgorithm;
+
+        System.out.println("Время работы первого алгоритма: " + processingTime + " мс");
+        System.out.println("Время работы второго алгоритма: " + processingTime2 + " мс");
     }
 }

@@ -3,12 +3,12 @@ package org.lesson02.task03;
 /**
  * Исключительная ситуация, описывающая невозможность сравнения объектов {@link Person}
  */
-public class PersonNotComparableException extends Exception {
+class PersonNotComparableException extends Exception {
 
-    public PersonNotComparableException() {
+    PersonNotComparableException() {
     }
 
-    public PersonNotComparableException(String message) {
+    PersonNotComparableException(String message) {
         super(message);
     }
 }
