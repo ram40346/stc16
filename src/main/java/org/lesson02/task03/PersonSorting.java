@@ -52,7 +52,6 @@ public class PersonSorting implements Sortable<Person> {
                 }
             }
         }
-
     }
 
     private boolean isSwitchByName(Person personFirst, Person personSecond) {
