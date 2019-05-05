@@ -9,7 +9,7 @@ public class Person {
     private Sex sex;
     private String name;
 
-    Person(int age, Sex sex, String name) {
+    public Person(int age, Sex sex, String name) {
         this.age = age;
         this.sex = sex;
         this.name = name;
