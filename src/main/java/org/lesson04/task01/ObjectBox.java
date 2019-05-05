@@ -6,30 +6,43 @@ package org.lesson04.task01;
         Должен быть метод dump, выводящий содержимое коллекции в строку.*/
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
+/**
+ * Коллекция объектов {@link Object}
+ */
+public class ObjectBox<T> {
 
-public class ObjectBox {
-
-    private List objects;
+    protected Collection<T> objects;
 
     public ObjectBox() {
         objects = new ArrayList();
     }
 
-    public void addObject(Object objects) {
+    /**
+     * Добавляет объект в коллекцию
+     * @param objects
+     */
+    public void addObject(T objects) {
         this.objects.add(objects);
     }
 
+    /**
+     * Удаляет обект из коллекции
+     * @param object
+     */
     public void deleteObject(Object object) {
         if (objects.contains(object)) {
             objects.remove(object);
         }
     }
 
+    /**
+     * Печатает элементы коллекции через ","
+     */
     public void dump() {
-        Iterator<Object> iter = objects.iterator();
+        Iterator<T> iter = objects.iterator();
         StringBuilder stringBuilder = new StringBuilder();
         while (iter.hasNext()) {
             stringBuilder.append(iter.next());
@@ -37,7 +50,14 @@ public class ObjectBox {
                 stringBuilder.append(", ");
             }
         }
-        System.out.println(stringBuilder.append(iter.hasNext()));
+        System.out.print(stringBuilder);
     }
 
+    /**
+     * Возвращает размер коллекции
+     * @return количество объектов
+     */
+    public int size() {
+        return objects.size();
+    }
 }

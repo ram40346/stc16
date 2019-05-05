@@ -10,32 +10,32 @@ import java.util.Set;
 /**
  * Класс реализует коллекцию Set
  */
-
-public class MathBox {
-
-    private Set<BigDecimal> numbers;
+public class MathBox extends ObjectBox<BigDecimal> {
 
     /**
-     *
+     * Принимает на вход массив объектов. Не сохраняет объекты null
      * @param numbers
      */
-
     public MathBox(Number[] numbers) {
-        this.numbers = new HashSet<>();
+        this.objects = new HashSet<>();
         for (Number n : numbers) {
             if (n != null) {
-                this.numbers.add(new BigDecimal(n.toString()));
+                this.objects.add(new BigDecimal(n.toString()));
             }
         }
+    }
+
+    @Override
+    public void addObject(BigDecimal objects) {
+        super.addObject(objects);
     }
 
     /**
      * Метод суммирует все элементы коллекции
      * @return sum {@link BigDecimal}
      */
-
     public BigDecimal summator() {
-        Iterator<BigDecimal> iter = numbers.iterator();
+        Iterator<BigDecimal> iter = objects.iterator();
         BigDecimal sum = BigDecimal.ZERO;
         while (iter.hasNext()) {
             sum = sum.add(new BigDecimal(iter.next().toString()));
@@ -50,13 +50,13 @@ public class MathBox {
      */
     public void splitter(Number divider) {
         Set<BigDecimal> dividedNumbers = new HashSet<>();
-        Iterator<BigDecimal> iterator = numbers.iterator();
+        Iterator<BigDecimal> iterator = objects.iterator();
         while (iterator.hasNext()) {
             BigDecimal temp = iterator.next();
             dividedNumbers.add(temp.divide(new BigDecimal(divider.toString())));
 
         }
-        numbers = dividedNumbers;
+        objects = dividedNumbers;
     }
 
     /**
@@ -64,14 +64,14 @@ public class MathBox {
      * @param value
      */
     public void remove(Integer value) {
-        numbers.remove(new BigDecimal(value.toString()));
+        objects.remove(new BigDecimal(value.toString()));
     }
 
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder(this.getClass().getSimpleName());
         result.append("[");
-        Iterator<BigDecimal> iter = numbers.iterator();
+        Iterator<BigDecimal> iter = objects.iterator();
         while (iter.hasNext()) {
             result.append(iter.next());
             if (iter.hasNext()) {
@@ -90,7 +90,7 @@ public class MathBox {
     public boolean containsAll(Collection numberCollection) {
         Iterator iter = numberCollection.iterator();
         while (iter.hasNext()) {
-          if(!numbers.contains(new BigDecimal(iter.next().toString()))) {
+          if(!objects.contains(new BigDecimal(iter.next().toString()))) {
             return false;
           }
         }
@@ -102,7 +102,7 @@ public class MathBox {
      * @return
      */
     public int size() {
-        return numbers.size();
+        return objects.size();
     }
 
     @Override
@@ -113,7 +113,7 @@ public class MathBox {
         if (obj instanceof MathBox) {
             MathBox mathBox = (MathBox) obj;
             if (mathBox.size() == this.size()) {
-                return mathBox.containsAll(numbers);
+                return mathBox.containsAll(objects);
 
             }
         }
@@ -123,9 +123,9 @@ public class MathBox {
 
     @Override
     public int hashCode() {
-        int hash = numbers.size();
-        Iterator<BigDecimal> iter = numbers.iterator();
-        for (BigDecimal s : numbers) {
+        int hash = objects.size();
+        Iterator<BigDecimal> iter = objects.iterator();
+        for (BigDecimal s : objects) {
             hash = hash + s.multiply(BigDecimal.valueOf(31)).divide(BigDecimal.valueOf(17),
                     0, RoundingMode.HALF_DOWN).intValue();
         }
