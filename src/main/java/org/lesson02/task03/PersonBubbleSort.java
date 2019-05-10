@@ -1,13 +1,15 @@
 package org.lesson02.task03;
 
-
 import java.text.Collator;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Класс производит сортировку методом Bubble Sort
  */
 public class PersonBubbleSort implements Sortable<Person> {
+
+    private static final Logger log = Logger.getLogger(PersonBubbleSort.class.getName());
 
     @Override
     public void sort(List<Person> list) {
@@ -30,7 +32,7 @@ public class PersonBubbleSort implements Sortable<Person> {
                     try {
                         throwIdentityException(personFirst, personSecond);
                     } catch (PersonNotComparableException e) {
-                        System.out.println(e.getMessage());
+                        log.warning(e.getMessage());
                     }
                 }
             }

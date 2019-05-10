@@ -2,11 +2,14 @@ package org.lesson02.task03;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Класс производит сортировку методом Selection Sort
  */
 public class PersonSorting implements Sortable<Person> {
+
+    private static final Logger log = Logger.getLogger(PersonSorting.class.getName());
 
     private List<Person> mans;
     private List<Person> woman;
@@ -43,7 +46,7 @@ public class PersonSorting implements Sortable<Person> {
                         try {
                             throwIfIdentical(people.get(i), people.get(j));
                         } catch (PersonNotComparableException e) {
-                            System.out.println(e.getMessage());
+                            log.warning(e.getMessage());
                         }
                     }
                 }

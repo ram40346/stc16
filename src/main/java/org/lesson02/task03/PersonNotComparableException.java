@@ -5,9 +5,6 @@ package org.lesson02.task03;
  */
 class PersonNotComparableException extends Exception {
 
-    PersonNotComparableException() {
-    }
-
     PersonNotComparableException(Person personFirst, Person personSecond) {
         super("Объекты идентичны \n"  + personFirst + personSecond);
     }
