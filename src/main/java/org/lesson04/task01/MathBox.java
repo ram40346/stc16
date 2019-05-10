@@ -64,7 +64,10 @@ public class MathBox extends ObjectBox<BigDecimal> {
      * @param value
      */
     public void remove(Integer value) {
-        objects.remove(new BigDecimal(value.toString()));
+        BigDecimal bigDecimalValue = new BigDecimal(value.toString());
+        if(objects.contains(bigDecimalValue)) {
+            objects.remove(bigDecimalValue);
+        }
     }
 
     @Override
