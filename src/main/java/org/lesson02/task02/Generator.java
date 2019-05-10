@@ -4,7 +4,6 @@ import org.apache.commons.math3.random.RandomDataGenerator;
 
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
-import static org.apache.commons.lang3.math.NumberUtils.INTEGER_ONE;
 import static org.apache.commons.lang3.math.NumberUtils.INTEGER_ZERO;
 
 /**
@@ -36,17 +35,14 @@ class Generator {
     }
 
     private void printIfSquarePowerEquals(RandomDataGenerator randomDataGenerator) throws NegativeNumberException {
-        double generatedNumber = randomDataGenerator.nextUniform(MIN_DOUBLE, MAX_DOUBLE);
-        if (generatedNumber< INTEGER_ZERO) {
+        int generatedNumber = (int) randomDataGenerator.nextUniform(MIN_DOUBLE, MAX_DOUBLE);
+        if (generatedNumber < INTEGER_ZERO) {
             throw new NegativeNumberException();
         }
-        double sqrt = sqrt(generatedNumber);
+        int sqrt = (int) sqrt(generatedNumber);
+        int square = (int) pow(sqrt, POWER);
 
-        double fractionalPart = sqrt % INTEGER_ONE;
-        double integralPart = sqrt - fractionalPart;
-        double square = pow(integralPart, POWER);
-        double wholeGenerated = generatedNumber - generatedNumber % INTEGER_ONE;
-        if (wholeGenerated == square) {
+        if (generatedNumber == square) {
             System.out.println(generatedNumber);
         }
     }
