@@ -43,7 +43,7 @@ public class PersonSorting implements Sortable<Person> {
                         try {
                             throwIfIdentical(people.get(i), people.get(j));
                         } catch (PersonNotComparableException e) {
-                            System.out.println("Объекты идентичны \n" + people.get(i) + people.get(j));
+                            System.out.println(e.getMessage());
                         }
                     }
                 }
@@ -70,7 +70,7 @@ public class PersonSorting implements Sortable<Person> {
     private void throwIfIdentical(Person personFirst, Person personSecond) throws PersonNotComparableException {
         if (personFirst.getAge().equals(personSecond.getAge())
                 && personFirst.getName().compareTo(personSecond.getName()) == 0) {
-            throw new PersonNotComparableException("Совпадение");
+            throw new PersonNotComparableException(personFirst, personSecond);
         }
     }
 }

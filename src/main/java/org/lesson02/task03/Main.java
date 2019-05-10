@@ -23,7 +23,7 @@ public class Main {
                 personCount = 10000;
             }
             for (int i = 0; i < personCount; i++) {
-                personList.add(Person.generatePerson());
+                personList.add(PersonGenerator.generatePerson());
             }
         }
 

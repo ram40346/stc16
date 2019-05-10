@@ -28,17 +28,17 @@ public class PersonBubbleSort implements Sortable<Person> {
                     isSorted = false;
                 } else if (personFirst.equals(personSecond)) {
                     try {
-                        throwIdentityException();
+                        throwIdentityException(personFirst, personSecond);
                     } catch (PersonNotComparableException e) {
-                        System.out.println("Объекты идентичны \n"  + personFirst + personSecond);
+                        System.out.println(e.getMessage());
                     }
                 }
             }
         }
     }
 
-    private void throwIdentityException() throws PersonNotComparableException {
-        throw new PersonNotComparableException();
+    private void throwIdentityException(Person personFirst, Person personSecond) throws PersonNotComparableException {
+        throw new PersonNotComparableException(personFirst, personSecond);
     }
 
     private boolean isSwitchByName(Person personFirst, Person personSecond) {

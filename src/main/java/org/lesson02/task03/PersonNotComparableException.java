@@ -8,7 +8,7 @@ class PersonNotComparableException extends Exception {
     PersonNotComparableException() {
     }
 
-    PersonNotComparableException(String message) {
-        super(message);
+    PersonNotComparableException(Person personFirst, Person personSecond) {
+        super("Объекты идентичны \n"  + personFirst + personSecond);
     }
 }
