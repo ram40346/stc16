@@ -59,7 +59,6 @@ public class Animal {
             return true;
         }
 
-
         if (obj instanceof Animal) {
             Animal animal = (Animal) obj;
             return animal.getName().equals(getName()) && animal.getPerson().equals(getPerson())

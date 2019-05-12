@@ -1,9 +1,11 @@
 package org.lesson02.task03;
 
+import static org.lesson02.task03.PersonCompareUtils.*;
+
 /**
  * Класс характеризующий человека
  */
-public class Person {
+public class Person implements Comparable<Person> {
 
     private Integer age;
     private Sex sex;
@@ -65,5 +67,33 @@ public class Person {
                 ",\n    sex=" + sex +
                 ",\n  name='" + name + '\'' +
                 "\n}";
+    }
+
+    /**
+     * Сравнивает два объекта {@link Person}
+     *
+     * @param person
+     * @return
+     */
+    @Override
+    public int compareTo(Person person) {
+        if (PersonCompareUtils.isWomanBeforeMan(this, person)) {
+            return -1;
+        } else if (isManBeforeWoman(this, person)) {
+            return 1;
+        }
+
+        if (isAgeLess(this, person)) {
+            return 1;
+        } else if (isAgeMore(this, person)) {
+            return -1;
+        }
+
+        if (isNameLess(this, person)) {
+            return -1;
+        } else if (this.getName().equals(person.getName())) {
+            return 0;
+        }
+        return 1;
     }
 }

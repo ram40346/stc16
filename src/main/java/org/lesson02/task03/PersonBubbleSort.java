@@ -1,8 +1,10 @@
 package org.lesson02.task03;
 
-import java.text.Collator;
 import java.util.List;
 import java.util.logging.Logger;
+
+import static org.lesson02.task03.PersonCompareUtils.*;
+
 
 /**
  * Класс производит сортировку методом Bubble Sort
@@ -23,9 +25,9 @@ public class PersonBubbleSort implements Sortable<Person> {
                     switchValues(list, i, i + 1);
                     isSorted = false;
                 } else if (isSexMatches(personFirst, personSecond)
-                        && ((isAgeLess(personFirst, personSecond))
+                        && ((isAgeMore(personFirst, personSecond))
                         || (isAgeEquals(personFirst, personSecond)
-                        && isSwitchByName(personFirst, personSecond)))) {
+                        && isNameMore(personFirst, personSecond)))) {
                     switchValues(list, i, i + 1);
                     isSorted = false;
                 } else if (personFirst.equals(personSecond)) {
@@ -41,26 +43,6 @@ public class PersonBubbleSort implements Sortable<Person> {
 
     private void throwIdentityException(Person personFirst, Person personSecond) throws PersonNotComparableException {
         throw new PersonNotComparableException(personFirst, personSecond);
-    }
-
-    private boolean isSwitchByName(Person personFirst, Person personSecond) {
-        return Collator.getInstance().compare(personFirst.getName(), personSecond.getName()) > 0;
-    }
-
-    private boolean isAgeLess(Person personFirst, Person personSecond) {
-        return personFirst.getAge() < personSecond.getAge();
-    }
-
-    private boolean isWomanBeforeMan(Person personFirst, Person personSecond) {
-        return personFirst.getSex() == Sex.WOMAN && personSecond.getSex() == Sex.MAN;
-    }
-
-    private boolean isSexMatches(Person personFirst, Person personSecond) {
-        return personFirst.getSex().equals(personSecond.getSex());
-    }
-
-    private boolean isAgeEquals(Person personFirst, Person personSecond) {
-        return personFirst.getAge().equals(personSecond.getAge());
     }
 
     private void switchValues(List<Person> persons, int i, int j) {

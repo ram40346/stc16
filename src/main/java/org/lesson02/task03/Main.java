@@ -7,7 +7,6 @@ import java.util.Scanner;
 /**
  * Принимает из консоли количество генерируемых объектов. Сортирует двумя способами.
  */
-
 public class Main {
     public static void main(String[] args) {
 
@@ -37,7 +36,6 @@ public class Main {
         long endFirstAlgorithm = System.currentTimeMillis();
 
         personList.forEach(person -> System.out.println(person + "\n"));
-
         long processingTime = endFirstAlgorithm - startFirstAlgorithm;
 
         long startAlternativeAlgorithm = System.currentTimeMillis();
@@ -46,7 +44,6 @@ public class Main {
 
         copyPersonList.forEach(person -> System.out.println(person + "\n"));
         long processingTime2 = endAlternativeAlgorithm - startAlternativeAlgorithm;
-
         System.out.println("Время работы первого алгоритма: " + processingTime + " мс");
         System.out.println("Время работы второго алгоритма: " + processingTime2 + " мс");
     }

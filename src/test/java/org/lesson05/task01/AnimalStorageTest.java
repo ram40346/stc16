@@ -53,20 +53,21 @@ class AnimalStorageTest {
     @Test
     void test_sort() {
         List<Animal> sortedAnimalsExpected = new LinkedList<>();
+        sortedAnimalsExpected.add(new Animal(10, "Пушинка", person4, 2.0));
+        sortedAnimalsExpected.add(new Animal(9, "Пушинка", person4, 1.3));
+
+        sortedAnimalsExpected.add(new Animal(7, "Боб", person3, 1.3));
+        sortedAnimalsExpected.add(new Animal(8, "Мурка", person3, 1.3));
 
         sortedAnimalsExpected.add(new Animal(4, "Белка", person2, 1.0));
         sortedAnimalsExpected.add(new Animal(6, "Стрелка", person2, 1.3));
         sortedAnimalsExpected.add(new Animal(5, "Стрелка", person2, 1.0));
 
-        sortedAnimalsExpected.add(new Animal(10, "Пушинка", person4, 2.0));
-        sortedAnimalsExpected.add(new Animal(9, "Пушинка", person4, 1.3));
 
         sortedAnimalsExpected.add(new Animal(1, "Белка", person1, 1.0));
         sortedAnimalsExpected.add(new Animal(3, "Стрелка", person1, 1.3));
         sortedAnimalsExpected.add(new Animal(2, "Стрелка", person1, 1.0));
 
-        sortedAnimalsExpected.add(new Animal(7, "Боб", person3, 1.3));
-        sortedAnimalsExpected.add(new Animal(8, "Мурка", person3, 1.3));
 
         List<Animal> animalList = actualAnimals.sort();
         assertArrayEquals(sortedAnimalsExpected.toArray(), animalList.toArray());

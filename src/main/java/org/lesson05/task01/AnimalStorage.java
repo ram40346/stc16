@@ -2,7 +2,10 @@ package org.lesson05.task01;
 
 import org.lesson02.task03.Person;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -11,11 +14,11 @@ import java.util.stream.Collectors;
 public class AnimalStorage implements AnimalCollection {
 
     private HashMap<Integer, String> idNameMap;
-    private Hashtable<String, HashMap<Integer,Animal>> nameAnimalMap;
+    private HashMap<Integer, Animal> idAnimalMap;
 
     public AnimalStorage() {
         idNameMap = new HashMap<>();
-        nameAnimalMap = new Hashtable<>();
+        idAnimalMap = new HashMap<>();
     }
 
     /**
@@ -27,10 +30,7 @@ public class AnimalStorage implements AnimalCollection {
     public void addAnimal(Animal animal) throws DuplicateAnimalException {
         if (idNameMap.get(animal.getId()) == null) {
             idNameMap.put(animal.getId(), animal.getName());
-            if (nameAnimalMap.get(animal.getName()) == null) {
-                nameAnimalMap.put(animal.getName(), new HashMap<>());
-            }
-            nameAnimalMap.get(animal.getName()).put(animal.getId() ,animal);
+            idAnimalMap.put(animal.getId(), animal);
         } else {
             throw new DuplicateAnimalException("Животное с данным идентификатором уже есть в списке.");
         }
@@ -43,14 +43,14 @@ public class AnimalStorage implements AnimalCollection {
     @Override
     public List<Animal> sort() {
         List<Animal> animals = new ArrayList<>();
-        nameAnimalMap.values().stream().forEach(animalsMap -> animals.addAll(animalsMap.values()));
+        idAnimalMap.values().stream().forEach(animal -> animals.add(animal));
         Collections.sort(animals, (o1, o2) -> {
-            if (o1.getPerson().getName().compareTo(o2.getPerson().getName()) < 0) {
+            if (o1.getPerson().compareTo(o2.getPerson()) > 0) {
                 return -1;
-            } else if (o1.getPerson().getName().compareTo(o2.getPerson().getName()) == 0) {
-                if (o1.getName().compareTo(o2.getName()) < 0) {
+            } else if (o1.getPerson().compareTo(o2.getPerson()) == 0) {
+                if (o1.getName().compareToIgnoreCase(o2.getName()) < 0) {
                     return -1;
-                } else if (o1.getName().compareTo(o2.getName()) == 0) {
+                } else if (o1.getName().compareToIgnoreCase(o2.getName()) == 0) {
                     if (o1.getWeight() > o2.getWeight()) {
                         return -1;
                     }
@@ -68,45 +68,44 @@ public class AnimalStorage implements AnimalCollection {
      */
     @Override
     public void setAnimalNameById(Integer id, String name) {
-        Animal animal = nameAnimalMap.get(idNameMap.get(id)).get(id);
-        nameAnimalMap.remove(name);
-
+        Animal animal = idAnimalMap.get(id);
         animal.setName(name);
         idNameMap.replace(id, name);
-        if (nameAnimalMap.get(name) == null) {
-            HashMap<Integer, Animal> map = new HashMap<>();
-            map.put(id, animal);
-            nameAnimalMap.put(name, map);
-        }
     }
 
     /**
      * {@inheritDoc}
+     *
      * @param id
      * @param weight
      */
     @Override
     public void setAnimalWeightById(Integer id, Double weight) {
-        nameAnimalMap.get(idNameMap.get(id)).get(id).setWeight(weight);
+        idAnimalMap.get(id).setWeight(weight);
     }
 
     /**
      * {@inheritDoc}
+     *
      * @param id
      * @param person
      */
     @Override
     public void setAnimalPersonById(Integer id, Person person) {
-        nameAnimalMap.get(idNameMap.get(id)).get(id).setPerson(person);
+        idAnimalMap.get(id).setPerson(person);
     }
 
     /**
      * {@inheritDoc}
+     *
      * @param name
      * @return
      */
     @Override
     public List<Animal> findByName(String name) {
-        return nameAnimalMap.get(name).values().stream().collect(Collectors.toList());
+        return idNameMap.entrySet().stream()
+                .filter(idNamePair -> name.equals(idNamePair.getValue()))
+                .map(idNamePair -> idAnimalMap.get(idNamePair.getKey()))
+                .collect(Collectors.toList());
     }
 }

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import static org.lesson02.task03.PersonCompareUtils.*;
+
 /**
  * Класс производит сортировку методом Selection Sort
  */
@@ -40,11 +42,14 @@ public class PersonSorting implements Sortable<Person> {
         for (int i = 0; i < people.size(); i++) {
             for (int j = 0; j < people.size(); j++) {
                 if (i != j) {
-                    if (isSwitchByAge(people.get(i), people.get(j)) || isSwitchByName(people.get(i), people.get(j))) {
+                    Person personFirst = people.get(i);
+                    Person personSecond = people.get(j);
+                    if (isAgeLess(personFirst, personSecond) ||
+                            (isAgeEquals(personFirst, personSecond) && isNameLess(personFirst, personSecond))) {
                         switchValues(people, i, j);
                     } else {
                         try {
-                            throwIfIdentical(people.get(i), people.get(j));
+                            throwIfIdentical(personFirst, personSecond);
                         } catch (PersonNotComparableException e) {
                             log.warning(e.getMessage());
                         }
@@ -52,15 +57,6 @@ public class PersonSorting implements Sortable<Person> {
                 }
             }
         }
-    }
-
-    private boolean isSwitchByName(Person personFirst, Person personSecond) {
-        return personFirst.getAge().equals(personSecond.getAge())
-                && personFirst.getName().compareTo(personSecond.getName()) > 0;
-    }
-
-    private boolean isSwitchByAge(Person personFirst, Person personSecond) {
-        return personFirst.getAge() > personSecond.getAge();
     }
 
     private void switchValues(List<Person> persons, int i, int j) {
