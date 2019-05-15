@@ -1,5 +1,7 @@
 package org.lesson04.task01;
 
+import org.lesson04.task02.ObjectBox;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Collection;
