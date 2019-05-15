@@ -2,6 +2,7 @@ package org.lesson04.task01;
 
 import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.Test;
+import org.lesson04.task03.MathBox;
 
 import java.math.BigDecimal;
 

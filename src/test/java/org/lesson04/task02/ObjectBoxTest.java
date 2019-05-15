@@ -3,6 +3,7 @@ package org.lesson04.task02;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.lesson04.task03.ObjectBox;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;

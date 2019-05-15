@@ -1,4 +1,4 @@
-package org.lesson04.task02;
+package org.lesson04.task03;
 /*
 Создать класс ObjectBox, который будет хранить коллекцию Object.
         У класса должен быть метод addObject, добавляющий объект в коллекцию.
@@ -61,4 +61,3 @@ public class ObjectBox<T> {
         return objects.size();
     }
 }
-
