@@ -74,7 +74,7 @@ class AnimalStorageTest {
     }
 
     @Test
-    void test_setAnimalNameById() {
+    void test_setAnimalNameById() throws DuplicateAnimalException{
         actualAnimals.setAnimalNameById(2, "Вася");
         assertEquals(actualAnimals.findByName("Вася").size(), 1);
     }

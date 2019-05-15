@@ -2,10 +2,7 @@ package org.lesson05.task01;
 
 import org.lesson02.task03.Person;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -13,11 +10,11 @@ import java.util.stream.Collectors;
  */
 public class AnimalStorage implements AnimalCollection {
 
-    private HashMap<Integer, String> idNameMap;
+    private HashMap<String, List<Integer>> nameIdMap;
     private HashMap<Integer, Animal> idAnimalMap;
 
     public AnimalStorage() {
-        idNameMap = new HashMap<>();
+        nameIdMap = new HashMap<>();
         idAnimalMap = new HashMap<>();
     }
 
@@ -28,12 +25,20 @@ public class AnimalStorage implements AnimalCollection {
      */
     @Override
     public void addAnimal(Animal animal) throws DuplicateAnimalException {
-        if (idNameMap.get(animal.getId()) == null) {
-            idNameMap.put(animal.getId(), animal.getName());
-            idAnimalMap.put(animal.getId(), animal);
-        } else {
+        List<Integer> integerList = nameIdMap.get(animal.getName());
+        if (integerList == null) {
+            fillValues(animal, new LinkedList<>());
+        } else if (integerList.contains(animal.getId())) {
             throw new DuplicateAnimalException("Животное с данным идентификатором уже есть в списке.");
+        } else {
+            fillValues(animal, integerList);
         }
+    }
+
+    private void fillValues(Animal animal, List<Integer> integerList) {
+        integerList.add(animal.getId());
+        nameIdMap.put(animal.getName(), integerList);
+        idAnimalMap.put(animal.getId(), animal);
     }
 
     /**
@@ -67,10 +72,11 @@ public class AnimalStorage implements AnimalCollection {
      * @param name
      */
     @Override
-    public void setAnimalNameById(Integer id, String name) {
+    public void setAnimalNameById(Integer id, String name) throws DuplicateAnimalException {
         Animal animal = idAnimalMap.get(id);
+        nameIdMap.get(animal.getName()).remove(id);
         animal.setName(name);
-        idNameMap.replace(id, name);
+        addAnimal(animal);
     }
 
     /**
@@ -103,9 +109,6 @@ public class AnimalStorage implements AnimalCollection {
      */
     @Override
     public List<Animal> findByName(String name) {
-        return idNameMap.entrySet().stream()
-                .filter(idNamePair -> name.equals(idNamePair.getValue()))
-                .map(idNamePair -> idAnimalMap.get(idNamePair.getKey()))
-                .collect(Collectors.toList());
+        return nameIdMap.get(name).stream().map(id -> idAnimalMap.get(id)).collect(Collectors.toList());
     }
 }

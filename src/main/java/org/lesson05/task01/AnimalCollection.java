@@ -23,7 +23,7 @@ public interface AnimalCollection {
      * @param id
      * @param name
      */
-    void setAnimalNameById(Integer id, String name);
+    void setAnimalNameById(Integer id, String name) throws DuplicateAnimalException;
 
     /**
      * Устанавливает вес по идентификатору
