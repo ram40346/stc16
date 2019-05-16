@@ -13,6 +13,6 @@ class TextGeneratorTest {
 
     @Test
     void test_generate_words() {
-        textGenerator.getFiles("srс/test/resources/lesson06", 2,16, textGenerator.generateWords(), 50);
+        textGenerator.getFiles("src/test/resources/", 2,16, textGenerator.generateWords(), 50);
     }
 }
