@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class TextGeneratorTest {
-    TextGenerator textGenerator;
+    private TextGenerator textGenerator;
 
     @BeforeEach
     void setUp() {

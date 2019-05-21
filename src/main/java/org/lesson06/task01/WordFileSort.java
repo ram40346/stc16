@@ -3,11 +3,7 @@ package org.lesson06.task01;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -17,6 +13,7 @@ import java.util.stream.Collectors;
 public class WordFileSort {
 
     private static final Logger log = Logger.getLogger(WordFileSort.class.getName());
+    public static final String REGEXP = "[ \\. \\, \\s\\\"\\'\\%\\-\\_\\:\\;\\*\\(\\)\\t\\r\\n]+";
 
     /**
      * Сортирует слова по алфавиту.
@@ -28,7 +25,7 @@ public class WordFileSort {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             Set<String> resultList = new HashSet<>();
             reader.lines().forEach(line -> {
-                String[] words = line.split("[ \\. \\,]");
+                String[] words = line.split(REGEXP);
                 resultList.addAll(Arrays.asList(words));
             });
             return resultList.stream().sorted(String::compareToIgnoreCase).collect(Collectors.toList());
