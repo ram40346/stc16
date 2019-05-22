@@ -4,6 +4,9 @@ import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
 import java.io.File;
 
+/**
+ * Копмилирует сгенерированный файл
+ */
 public class Compiler {
     public static void compile(File file) {
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
