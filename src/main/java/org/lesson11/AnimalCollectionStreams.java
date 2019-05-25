@@ -10,12 +10,10 @@ import java.util.stream.Collectors;
 
 public class AnimalCollectionStreams implements AnimalCollection {
 
-    private HashMap<String, List<Integer>> nameIdMap;
-    private HashMap<Integer, Animal> idAnimalMap;
+    private HashMap<String, Set<Integer>> nameIdMap = new HashMap<>();
+    private HashMap<Integer, Animal> idAnimalMap = new HashMap<>();
 
     public AnimalCollectionStreams() {
-        nameIdMap = new HashMap<>();
-        idAnimalMap = new HashMap<>();
     }
 
     /**
@@ -25,9 +23,9 @@ public class AnimalCollectionStreams implements AnimalCollection {
      */
     @Override
     public void addAnimal(Animal animal) throws DuplicateAnimalException {
-        List<Integer> integerList = nameIdMap.get(animal.getName());
+        Set<Integer> integerList = nameIdMap.get(animal.getName());
         if (integerList == null) {
-            fillValues(animal, new LinkedList<>());
+            fillValues(animal, new HashSet<>());
         } else if (integerList.contains(animal.getId())) {
             throw new DuplicateAnimalException("Животное с данным идентификатором уже есть в списке.");
         } else {
@@ -35,7 +33,7 @@ public class AnimalCollectionStreams implements AnimalCollection {
         }
     }
 
-    private void fillValues(Animal animal, List<Integer> integerList) {
+    private void fillValues(Animal animal, Set<Integer> integerList) {
         integerList.add(animal.getId());
         nameIdMap.put(animal.getName(), integerList);
         idAnimalMap.put(animal.getId(), animal);
@@ -47,21 +45,19 @@ public class AnimalCollectionStreams implements AnimalCollection {
      */
     @Override
     public List<Animal> sort() {
-        List<Animal> animals = new ArrayList<>();
-        animals.addAll(idAnimalMap.values());
-        Collections.sort(animals, (o1, o2) -> {
+        return idAnimalMap.values().stream().sorted((o1, o2) -> {
             if (o1.getPerson().compareTo(o2.getPerson()) > 0) {
                 return -1;
             } else if (o1.getPerson().compareTo(o2.getPerson()) == 0) {
                 if (o1.getName().compareToIgnoreCase(o2.getName()) < 0) {
                     return -1;
                 } else if (o1.getName().compareToIgnoreCase(o2.getName()) == 0 && o1.getWeight() > o2.getWeight()) {
-                        return -1;
+                    return -1;
                 }
             }
             return 1;
-        });
-        return animals;
+        }).collect(Collectors.toList()) ;
+
     }
 
     /**
@@ -111,7 +107,7 @@ public class AnimalCollectionStreams implements AnimalCollection {
      */
     @Override
     public List<Animal> findByName(String name) {
-        Optional<List<Integer>> integerList = Optional.ofNullable(nameIdMap.get(name));
+        Optional<Set<Integer>> integerList = Optional.ofNullable(nameIdMap.get(name));
         return integerList.orElseThrow(() -> new NoSuchElementException("Объектов с именем \"" + name + "\" не суцществует"))
                 .stream().map(id -> idAnimalMap.get(id))
                 .collect(Collectors.toList());
