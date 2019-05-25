@@ -1,19 +1,23 @@
 package org.lesson09;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * Демонстрация функционала
  */
 public class Main {
-    public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InstantiationException, InvocationTargetException {
-        Scan.classWriter();
-        Compiler.compile(new File("C:\\Users\\Рамиль\\IdeaProjects\\stc16\\src\\test\\resources\\org.lesson09\\WorkerImpl.java"));
+    static final String CLASS_PATH = "org.lesson09.WorkerImpl";
+    static final String DIRECTORY = "org.lesson09";
+    static final String FILEPATH = DIRECTORY + "\\WorkerImpl.java";
+    static final String LINK = DIRECTORY + "\\WorkerImpl.class";
+
+    public static void main(String[] args) throws Exception {
+        ClassWriter.classWriter();
+        Compiler.compile(new File(FILEPATH));
         ClassLoader parentClassLoader = Worker.class.getClassLoader();
 
         WorkerClassLoader workerClassLoader = new WorkerClassLoader(parentClassLoader);
-        Class worker = workerClassLoader.loadClass("org.lesson09.WorkerImpl");
+        Class worker = workerClassLoader.loadClass(CLASS_PATH);
         worker.getMethod("doWork").invoke(worker.newInstance(), null);
     }
 }

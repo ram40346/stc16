@@ -1,11 +1,10 @@
 package org.lesson09;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
+import java.io.*;
 import java.util.logging.Logger;
+
+import static org.lesson09.Main.CLASS_PATH;
+import static org.lesson09.Main.LINK;
 
 /**
  * Загрусчик класса WorkerImpl
@@ -13,29 +12,23 @@ import java.util.logging.Logger;
 public class WorkerClassLoader extends ClassLoader {
 
     private static final Logger log = Logger.getLogger(WorkerClassLoader.class.getName());
-    private static final String NAME_PATH = "org.lesson09.WorkerImpl";
-    private static final String LINK = "file:\\C:\\Users\\Рамиль\\IdeaProjects\\stc16\\src\\test\\resources\\org.lesson09\\WorkerImpl.class";
 
     protected WorkerClassLoader(ClassLoader parent) {
-        super(parent);
+        super();
     }
 
     @Override
     public Class<?> loadClass(String name) throws ClassNotFoundException {
-        if (name.equals(NAME_PATH)) {
+        if (name.equals(CLASS_PATH)) {
             byte[] classData = new byte[]{};
-            try {
-                URL url = new URL(LINK);
-                URLConnection urlConnection = url.openConnection();
+            try (InputStream inputStream = new FileInputStream(new File(LINK));
+                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()){
 
-                InputStream inputStream = urlConnection.getInputStream();
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 int data = inputStream.read();
                 while (data!=-1){
                     byteArrayOutputStream.write(data);
                     data = inputStream.read();
                 }
-                inputStream.close();
 
                 classData = byteArrayOutputStream.toByteArray();
             } catch (IOException e) {

@@ -9,22 +9,22 @@ import java.util.Scanner;
 import java.util.logging.Logger;
 
 import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.lesson09.Main.DIRECTORY;
+import static org.lesson09.Main.FILEPATH;
 
 /**
  * Создаёт файл и записывает в него ввод с консоли
  */
-public class Scan {
+public class ClassWriter {
 
-    public static final Logger log = Logger.getLogger(Scan.class.getName());
+    public static final Logger log = Logger.getLogger(ClassWriter.class.getName());
 
-    private static final String DIRECTORY = "C:\\Users\\Рамиль\\IdeaProjects\\stc16\\src\\test\\resources\\org.lesson09";
-    private static final String FILEPATH = DIRECTORY + "\\WorkerImpl.java";
     private static final String IMPORT = "package org.lesson09; \n\n";
     private static final String CLASS_NAME = "public class WorkerImpl implements Worker {\n";
     private static final String METHOD_SIGNATURE = "\tpublic void doWork() {\n\t\t";
     private static final String SPACING_AND_BRACE = "\n\t}\n\n}";
 
-    private Scan() {
+    private ClassWriter() {
     }
 
     public static void classWriter() {
