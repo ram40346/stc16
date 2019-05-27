@@ -3,19 +3,16 @@ package org.lesson09;
 import java.io.*;
 import java.util.logging.Logger;
 
-import static org.lesson09.Main.CLASS_PATH;
-import static org.lesson09.Main.LINK;
+import static org.lesson09.Constants.CLASS_PATH;
+import static org.lesson09.Constants.LINK;
 
 /**
  * Загрусчик класса WorkerImpl
  */
+
 public class WorkerClassLoader extends ClassLoader {
 
     private static final Logger log = Logger.getLogger(WorkerClassLoader.class.getName());
-
-    protected WorkerClassLoader(ClassLoader parent) {
-        super();
-    }
 
     @Override
     public Class<?> loadClass(String name) throws ClassNotFoundException {
@@ -31,6 +28,8 @@ public class WorkerClassLoader extends ClassLoader {
                 }
 
                 classData = byteArrayOutputStream.toByteArray();
+
+                byteArrayOutputStream.flush();
             } catch (IOException e) {
                 log.warning(e.getMessage());
             }
