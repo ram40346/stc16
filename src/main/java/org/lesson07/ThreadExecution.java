@@ -48,7 +48,19 @@ public class ThreadExecution {
                 log.warn(WARNING_TIMEOUT);
             }
         });
-        System.out.println(factorialsMap);
+
+        try {
+            if (executorService.awaitTermination(10, TimeUnit.SECONDS)) {
+                log.info("task completed");
+            } else {
+                log.info("Forcing shutdown...");
+                executorService.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            log.warn("ExecutionService was interrupted while waiting");
+        }
+        factorialsMap.forEach((integer, bigInteger) -> log.info(integer + "! : " + bigInteger));
+
     }
 
     /**
