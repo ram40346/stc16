@@ -21,14 +21,14 @@ public class DBConnection {
 
     public static Connection getConnection(){
         if (connection == null) {
-            log.info("connect to the database");
+            log.info("Подключение к БД");
             try {
                 Class.forName("org.postgresql.Driver");
                 connection = DriverManager.getConnection(DATA_URL, USER_NAME, PASS);
             } catch (SQLException e) {
-                log.error("database access error occurs or the url is null" + e.getMessage());
+                log.error("Произошла ошибка доступа к базе данных или URL-адрес равен нулю" + e.getMessage());
             } catch (ClassNotFoundException e) {
-                log.error("Class cannot be located" + e.getMessage());
+                log.error("Класс не может быть определён" + e.getMessage());
             }
         }
         return connection;

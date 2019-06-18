@@ -22,20 +22,22 @@ public class UserScanner {
 
     public static User scanUserValues(Scanner scanner) {
         try {
-            System.out.println("Введите " + USER_NAME);
+            log.info("Ввод данных в консоль");
+            System.out.println(INSERT + USER_NAME);
             String name = scanner.nextLine();
-            System.out.println("Введите " + USER_EMAIL);
+            System.out.println(INSERT + USER_EMAIL);
             String email = scanner.nextLine();
-            System.out.println("Введите " + USER_BIRTHDAY + " в формате yyyy-mm-dd");
+            System.out.println(INSERT + USER_BIRTHDAY + " в формате yyyy-mm-dd");
             String birthday = scanner.nextLine();
-            System.out.println("Введите " + USER_CITY);
+            System.out.println(INSERT + USER_CITY);
             String city = scanner.nextLine();
-            System.out.println("Введите " + USER_DESCRIPTION);
+            System.out.println(INSERT + USER_DESCRIPTION);
             String description = scanner.nextLine();
-            System.out.println("Введите роль");
+            System.out.println(INSERT + "роль");
             String roleName = scanner.nextLine();
             DateTimeFormatter dateFormat = DateTimeFormatter.ISO_LOCAL_DATE;
             LocalDate startDate = LocalDate.parse(birthday, dateFormat);
+            log.info("Возвращаем заполненое поле таблицы user");
             return new User(name, startDate, city, email, description, Role.findByName(roleName));
         } catch (DateTimeParseException e) {
             log.error("Не удалость прочитать дату\n" + e.getMessage());

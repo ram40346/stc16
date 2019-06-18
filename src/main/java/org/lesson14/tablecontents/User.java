@@ -8,6 +8,9 @@ import org.apache.commons.lang3.RandomUtils;
 
 import java.time.LocalDate;
 
+import static org.lesson14.jdbc.UpDate.MAX_RANDOM;
+import static org.lesson14.jdbc.UpDate.MIN_RANDOM;
+
 @Getter
 @Setter
 @ToString
@@ -24,11 +27,11 @@ public class User {
 
     private Role role;
 
-    public User(String name, LocalDate birthday, String city, String email, String description, Role role){
-        this.id = RandomUtils.nextInt();
+    public User(String name, LocalDate birthday, String city, String email, String description, Role role) {
+        this.id = RandomUtils.nextInt(MIN_RANDOM, MAX_RANDOM);
         this.name = name;
         this.birthday = birthday;
-        this.loginId = RandomUtils.nextInt();
+        this.loginId = RandomUtils.nextInt(MIN_RANDOM, MAX_RANDOM);
         this.city = city;
         this.email = email;
         this.description = description;

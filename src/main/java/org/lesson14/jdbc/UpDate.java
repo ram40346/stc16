@@ -19,6 +19,8 @@ import java.util.List;
 @Slf4j
 public class UpDate {
 
+    public static final String PROPERTIES_URL = "C:\\Users\\Рамиль\\IdeaProjects\\stc16\\src\\main\\resources\\log4j2.properties";
+    public static final String INSERT = "Введите ";
     public static final String USER_ID = "id";
     public static final String ROLE_ID = "role_id";
     public static final String USER_NAME = "name";
@@ -27,32 +29,39 @@ public class UpDate {
     public static final String USER_CITY = "city";
     public static final String USER_EMAIL = "email";
     public static final String USER_DESCRIPTION = "description";
+    public static final String ERROR = "Ошибка ";
     private final PrepareStatementUtils prepareStatementUtils = new PrepareStatementUtils();
+    public static final int MIN_RANDOM = 1;
+    public static final int MAX_RANDOM = 10000;
 
     /**
      * Добавляет user в таблицу
+     *
      * @param user
      */
 
     public void insertUser(User user) {
         try {
+            log.info("Добавляем объект user в таблицу user");
             PreparedStatement userStatement = prepareStatementUtils.getUserInsertStatement(user);
             PreparedStatement userRoleStatement = prepareStatementUtils.getUserRoleInsertStatement(user);
             userRoleStatement.executeUpdate();
             userStatement.executeUpdate();
             log.info("Использовался метод \"executeUpdate\" Добавлен объект: " + user.toString());
         } catch (SQLException e) {
-
+            log.error("Нет доступа к базе", e);
         }
     }
 
     /**
      * Добавляет user в таблицу через batch
+     *
      * @param user
      */
 
     public void insertUserWithBatch(User user) {
         try {
+            log.info("Добавляем объект user в таблицу user");
             PreparedStatement userStatement = prepareStatementUtils.getUserInsertStatement(user);
             PreparedStatement roleUserStatement = prepareStatementUtils.getUserRoleInsertStatement(user);
             roleUserStatement.addBatch();
@@ -61,18 +70,20 @@ public class UpDate {
             userStatement.executeBatch();
             log.info("Использовался метод \"executeUpdate\" Добавлен объект: " + user.toString());
         } catch (SQLException e) {
-            log.error(e.getMessage());
+            log.error("Нет доступа к базе", e);
         }
     }
 
     /**
      * Добавляет users в таблицу
+     *
      * @param users
      */
 
     public void insertUsersWithBatch(List<User> users) {
         PreparedStatement userStatement = null;
         try {
+            log.info("Добавляем писок users в таблицу user через batch процесс");
             for (User user : users) {
                 userStatement = prepareStatementUtils.getUserInsertStatement(user);
                 userStatement.addBatch();
@@ -81,45 +92,54 @@ public class UpDate {
             userStatement.executeBatch();
             log.info("Использовался метод \"executeUpdate\" Добавлены объекты: " + users.toString());
         } catch (SQLException e) {
+            log.error("Нет доступа к базе", e);
         }
     }
 
     /**
      * Заполняет таблицу role через batch
+     *
      * @param role
      */
 
     public void insertRoleWithBatch(Role role) {
         try {
+            log.info("Добавляем объект role в таблицу role через batch процесс");
             PreparedStatement roleStatement = prepareStatementUtils.getRoleInsertStatement(role);
             roleStatement.addBatch();
             roleStatement.executeBatch();
+            log.info("Объекст успешно добавлен");
         } catch (SQLException e) {
-            log.error(e.getMessage());
+            log.error("Нет доступа к базе", e);
         }
     }
 
     /**
      * Заполняет таблицу role
+     *
      * @param role
      */
     public void insertRole(Role role) {
         try {
+            log.info("Добавляем объект role в таблицу role");
             PreparedStatement roleStatement = prepareStatementUtils.getRoleInsertStatement(role);
             roleStatement.executeUpdate();
+            log.info("Объекст успешно добавлен");
         } catch (SQLException e) {
-            log.error(e.getMessage());
+            log.error("Нет доступа к базе", e);
         }
     }
 
     /**
      * Выбирает user по имени
+     *
      * @param userName
      * @param userLoginId
      * @return
      */
     public List<User> selectUserByName(String userName, int userLoginId) {
         try {
+            log.info("Достаём объекты user из таблицы user по параметрам name и login_id");
             PreparedStatement selectName = prepareStatementUtils.selectUser(userName, userLoginId);
             ResultSet resultSet = selectName.executeQuery();
             List<User> users = new ArrayList<>();
@@ -138,13 +158,14 @@ public class UpDate {
 
                 User user = new User(id, name, birthday, loginId, city, email, description, Role.findById(roleId));
                 users.add(user);
+                log.info("Объекты успешно выбраны");
             }
             return users;
-        } catch (SQLException e) {
-            log.error(e.getMessage());
+        } catch (SQLException | NullPointerException e) {
+            log.error(ERROR + e.getMessage());
         }
-      return Collections.emptyList();
-  }
+        return Collections.emptyList();
+    }
 
 }
 
