@@ -13,11 +13,8 @@ import java.sql.SQLException;
 @Slf4j
 public class CreateTables {
 
-    Connection connection;
+    Connection connection = DBConnection.getConnection();
 
-    CreateTables() {
-        this.connection = DBConnection.getConnection();
-    }
 
     /**
      * Создание таблицы user

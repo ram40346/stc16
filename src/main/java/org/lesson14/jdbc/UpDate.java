@@ -9,7 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -31,46 +30,64 @@ public class UpDate {
 
     /**
      * Добавляет user в таблицу
+     *
      * @param user
      */
 
-    public void insertUser(User user) {
+    public void insertUser(User user) throws SQLException {
+        PreparedStatement userStatement = null;
+        PreparedStatement userRoleStatement = null;
+
         try {
-            PreparedStatement userStatement = prepareStatementUtils.getUserInsertStatement(user);
-            PreparedStatement userRoleStatement = prepareStatementUtils.getUserRoleInsertStatement(user);
+            userStatement = prepareStatementUtils.getUserInsertStatement(user);
+            userRoleStatement = prepareStatementUtils.getUserRoleInsertStatement(user);
             userRoleStatement.executeUpdate();
             userStatement.executeUpdate();
             log.info("Использовался метод \"executeUpdate\" Добавлен объект: " + user.toString());
-        } catch (SQLException e) {
-
+        } finally {
+            if (userStatement != null) {
+                userStatement.close();
+            }
+            if (userRoleStatement != null) {
+                userRoleStatement.close();
+            }
         }
     }
 
     /**
      * Добавляет user в таблицу через batch
+     *
      * @param user
      */
 
-    public void insertUserWithBatch(User user) {
+    public void insertUserWithBatch(User user) throws SQLException {
+        PreparedStatement userStatement = null;
+        PreparedStatement roleUserStatement = null;
         try {
-            PreparedStatement userStatement = prepareStatementUtils.getUserInsertStatement(user);
-            PreparedStatement roleUserStatement = prepareStatementUtils.getUserRoleInsertStatement(user);
+            userStatement = prepareStatementUtils.getUserInsertStatement(user);
+            roleUserStatement = prepareStatementUtils.getUserRoleInsertStatement(user);
             roleUserStatement.addBatch();
             roleUserStatement.executeBatch();
             userStatement.addBatch();
             userStatement.executeBatch();
             log.info("Использовался метод \"executeUpdate\" Добавлен объект: " + user.toString());
-        } catch (SQLException e) {
-            log.error(e.getMessage());
+        } finally {
+            if (userStatement != null) {
+                userStatement.close();
+            }
+            if (roleUserStatement != null) {
+                roleUserStatement.close();
+            }
         }
     }
 
     /**
      * Добавляет users в таблицу
+     *
      * @param users
      */
 
-    public void insertUsersWithBatch(List<User> users) {
+    public void insertUsersWithBatch(List<User> users) throws SQLException {
         PreparedStatement userStatement = null;
         try {
             for (User user : users) {
@@ -81,51 +98,73 @@ public class UpDate {
             userStatement.executeBatch();
             log.info("Использовался метод \"executeUpdate\" Добавлены объекты: " + users.toString());
         } catch (SQLException e) {
+            log.error(e.getMessage());
+        } finally {
+            if (userStatement != null) {
+                userStatement.close();
+            }
+
         }
     }
 
     /**
      * Заполняет таблицу role через batch
+     *
      * @param role
      */
 
-    public void insertRoleWithBatch(Role role) {
+    public void insertRoleWithBatch(Role role) throws SQLException {
+        PreparedStatement roleStatement = null;
         try {
-            PreparedStatement roleStatement = prepareStatementUtils.getRoleInsertStatement(role);
+            roleStatement = prepareStatementUtils.getRoleInsertStatement(role);
             roleStatement.addBatch();
             roleStatement.executeBatch();
-        } catch (SQLException e) {
-            log.error(e.getMessage());
+        } finally {
+            if (roleStatement != null) {
+                roleStatement.close();
+            }
+
+
         }
     }
 
     /**
      * Заполняет таблицу role
+     *
      * @param role
      */
-    public void insertRole(Role role) {
+    public void insertRole(Role role) throws SQLException {
+        PreparedStatement roleStatement = null;
         try {
-            PreparedStatement roleStatement = prepareStatementUtils.getRoleInsertStatement(role);
+            roleStatement = prepareStatementUtils.getRoleInsertStatement(role);
             roleStatement.executeUpdate();
-        } catch (SQLException e) {
-            log.error(e.getMessage());
+        } finally {
+            if (roleStatement != null) {
+                roleStatement.close();
+            }
+
+
         }
     }
 
     /**
      * Выбирает user по имени
+     *
      * @param userName
      * @param userLoginId
      * @return
      */
-    public List<User> selectUserByName(String userName, int userLoginId) {
+    public List<User> selectUserByName(String userName, int userLoginId) throws SQLException {
+        PreparedStatement selectName = null;
+        PreparedStatement selectRoleId = null;
+
         try {
-            PreparedStatement selectName = prepareStatementUtils.selectUser(userName, userLoginId);
+            selectName = prepareStatementUtils.selectUser(userName, userLoginId);
             ResultSet resultSet = selectName.executeQuery();
             List<User> users = new ArrayList<>();
             while (resultSet.next()) {
                 int id = resultSet.getInt(USER_ID);
-                PreparedStatement selectRoleId = prepareStatementUtils.selectRoleIdByUserId(id);
+                selectRoleId = prepareStatementUtils.selectRoleIdByUserId(id);
                 ResultSet setResult = selectRoleId.executeQuery();
                 setResult.next();
                 int roleId = setResult.getInt(ROLE_ID);
@@ -140,13 +179,16 @@ public class UpDate {
                 users.add(user);
             }
             return users;
-        } catch (SQLException e) {
-            log.error(e.getMessage());
+
+        } finally {
+            if (selectName != null) {
+                selectName.close();
+            }
+            if (selectRoleId != null) {
+                selectRoleId.close();
+            }
         }
-      return Collections.emptyList();
-  }
-
+    }
 }
-
 
 

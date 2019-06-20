@@ -13,11 +13,8 @@ import java.sql.SQLException;
 @Slf4j
 public class PrepareStatementUtils {
 
-    Connection connection;
+    Connection connection = DBConnection.getConnection();
 
-    public PrepareStatementUtils() {
-        this.connection = DBConnection.getConnection();
-    }
 
     /**
      * Заполняет поле в таблице user

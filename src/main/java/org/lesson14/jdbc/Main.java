@@ -18,15 +18,21 @@ import static org.apache.commons.lang3.StringUtils.EMPTY;
 @Slf4j
 public class Main {
     public static void main(String[] args) throws SQLException {
-        CreateTables createTables = new CreateTables();
-        createTables.createUserRoleTable();
-        createTables.createRoleTable();
-        createTables.createUserTable();
-        UpDate upDate = new UpDate();
-        upDate.insertRole(Role.ADMINISTRATOR);
-        upDate.insertRole(Role.CLIENT);
-        upDate.insertRole(Role.BILLING);
         Scanner scanner = new Scanner(System.in);
+        CreateTables createTables = new CreateTables();
+        System.out.println("Создавать таблицы? (Y/N)");
+        if (scanner.nextLine().toLowerCase().equals("y")) {
+            createTables.createUserRoleTable();
+            createTables.createRoleTable();
+            createTables.createUserTable();
+        }
+        UpDate upDate = new UpDate();
+        System.out.println("Заполнять таблицу ролей? (Y/N)");
+        if (scanner.nextLine().toLowerCase().equals("y")) {
+            upDate.insertRole(Role.ADMINISTRATOR);
+            upDate.insertRole(Role.CLIENT);
+            upDate.insertRole(Role.BILLING);
+        }
         ArrayList<User> userArrayList = new ArrayList<>();
         System.out.println("Введите любой символ чтобы начать вводить нового пользователя.\n" +
                 "Введите пустую строку чтобы завершить");
