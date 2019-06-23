@@ -26,7 +26,15 @@ public class UpDate {
     public static final String USER_CITY = "city";
     public static final String USER_EMAIL = "email";
     public static final String USER_DESCRIPTION = "description";
-    private final PrepareStatementUtils prepareStatementUtils = new PrepareStatementUtils();
+    private final PrepareStatementUtils prepareStatementUtils;
+
+    UpDate() {
+        this(new PrepareStatementUtils());
+    }
+
+    UpDate(PrepareStatementUtils prepareStatementUtils) {
+        this.prepareStatementUtils = prepareStatementUtils;
+    }
 
     /**
      * Добавляет user в таблицу
@@ -89,13 +97,17 @@ public class UpDate {
 
     public void insertUsersWithBatch(List<User> users) throws SQLException {
         PreparedStatement userStatement = null;
+        PreparedStatement roleUserStatement = null;
         try {
             for (User user : users) {
+
                 userStatement = prepareStatementUtils.getUserInsertStatement(user);
+                roleUserStatement = prepareStatementUtils.getUserRoleInsertStatement(user);
+                roleUserStatement.addBatch();
                 userStatement.addBatch();
+                roleUserStatement.executeBatch();
+                userStatement.executeBatch();
             }
-            assert userStatement != null;
-            userStatement.executeBatch();
             log.info("Использовался метод \"executeUpdate\" Добавлены объекты: " + users.toString());
         } catch (SQLException e) {
             log.error(e.getMessage());
@@ -123,8 +135,6 @@ public class UpDate {
             if (roleStatement != null) {
                 roleStatement.close();
             }
-
-
         }
     }
 
@@ -142,8 +152,6 @@ public class UpDate {
             if (roleStatement != null) {
                 roleStatement.close();
             }
-
-
         }
     }
 
@@ -154,7 +162,7 @@ public class UpDate {
      * @param userLoginId
      * @return
      */
-    public List<User> selectUserByName(String userName, int userLoginId) throws SQLException {
+    public List<User> selectUserByNameAndLoginId(String userName, int userLoginId) throws SQLException {
         PreparedStatement selectName = null;
         PreparedStatement selectRoleId = null;
 

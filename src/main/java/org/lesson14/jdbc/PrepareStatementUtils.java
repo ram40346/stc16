@@ -5,10 +5,7 @@ import org.apache.commons.lang3.RandomUtils;
 import org.lesson14.tablecontents.Role;
 import org.lesson14.tablecontents.User;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 @Slf4j
 public class PrepareStatementUtils {
@@ -115,6 +112,38 @@ public class PrepareStatementUtils {
             String selectSQL = "SELECT role_id from public.user_role where user_id = ?";
             PreparedStatement roleIdSelect = connection.prepareStatement(selectSQL);
             roleIdSelect.setInt(1, userID);
+            return roleIdSelect;
+        } catch (SQLException e) {
+            log.error("Ошибка " + e.getMessage());
+        }
+        return null;
+    }
+
+    public  PreparedStatement getRoleIds() {
+        try {
+            String selectSQL = "SELECT id from public.role";
+            PreparedStatement roleIdSelect = connection.prepareStatement(selectSQL);
+            return roleIdSelect;
+        } catch (SQLException e) {
+            log.error("Ошибка " + e.getMessage());
+        }
+        return null;
+    }
+
+    public PreparedStatement getAllUesrIdsStatement() {
+        try {
+            String selectSQL = "SELECT id from public.user";
+            PreparedStatement roleIdSelect = connection.prepareStatement(selectSQL);
+            return roleIdSelect;
+        } catch (SQLException e) {
+            log.error("Ошибка " + e.getMessage());
+        }
+        return null;
+    }
+    public PreparedStatement getAllUesrRolesStatement() {
+        try {
+            String selectSQL = "SELECT * from public.user_role";
+            PreparedStatement roleIdSelect = connection.prepareStatement(selectSQL);
             return roleIdSelect;
         } catch (SQLException e) {
             log.error("Ошибка " + e.getMessage());

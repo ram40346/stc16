@@ -1,5 +1,6 @@
 package org.lesson14.tablecontents;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
@@ -40,4 +41,5 @@ public enum Role {
         }
         return null;
     }
+
 }

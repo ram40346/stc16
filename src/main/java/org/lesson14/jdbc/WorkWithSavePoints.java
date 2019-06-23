@@ -14,13 +14,16 @@ import java.util.Scanner;
 @Slf4j
 public class WorkWithSavePoints {
     public static void main(String[] args) throws SQLException {
-        Connection connection = DBConnection.getConnection();
-        connection.setAutoCommit(false);
         Scanner scanner = new Scanner(System.in);
 
-        UserScanner.scanUserValues(scanner);
         User user = UserScanner.scanUserValues(scanner);
 
+        executeWithSavePoint(user);
+    }
+
+    public static void executeWithSavePoint(User user) throws SQLException {
+        Connection connection = DBConnection.getConnection();
+        connection.setAutoCommit(false);
         Savepoint savepoint = connection.setSavepoint();
 
         try (PreparedStatement userRoleStatement = connection.prepareStatement("INSERT INTO public.user_role(id, user_id, role_id) "
@@ -40,11 +43,11 @@ public class WorkWithSavePoints {
             userStatement.setString(7, user.getDescription());
             userStatement.executeUpdate();
             connection.commit();
-
+            connection.setAutoCommit(true);
         } catch (SQLException | NumberFormatException | NullPointerException e) {
-            connection.rollback(savepoint);
             log.error(e.getMessage());
-
+            connection.rollback(savepoint);
+            connection.setAutoCommit(true);
         }
     }
 }

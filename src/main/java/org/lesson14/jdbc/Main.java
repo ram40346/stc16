@@ -58,7 +58,7 @@ public class Main {
         String name = scanner.nextLine();
         String loginId = scanner.nextLine();
 
-        List<User> users = upDate.selectUserByName(name, Integer.valueOf(loginId));
+        List<User> users = upDate.selectUserByNameAndLoginId(name, Integer.valueOf(loginId));
         log.info(users.stream().map(user -> user.toString()).collect(Collectors.joining("\n")));
         DBConnection.getConnection().close();
     }

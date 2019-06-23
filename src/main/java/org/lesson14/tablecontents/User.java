@@ -1,9 +1,6 @@
 package org.lesson14.tablecontents;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.apache.commons.lang3.RandomUtils;
 
 import java.time.LocalDate;
@@ -11,6 +8,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @ToString
+@EqualsAndHashCode
 @AllArgsConstructor
 public class User {
 
