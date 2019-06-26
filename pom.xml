@@ -44,11 +44,6 @@
             <version>3.12.0.GA</version>
         </dependency>
         <dependency>
-            <groupId>postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>${postgresql.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.8.1</version>
@@ -69,7 +64,6 @@
                 <configuration>
                     <source>8</source>
                     <target>8</target>
-                    <argLine>-Xmx1b</argLine>
                 </configuration>
             </plugin>
         </plugins>

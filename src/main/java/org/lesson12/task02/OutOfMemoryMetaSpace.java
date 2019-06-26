@@ -5,7 +5,8 @@ import javassist.ClassPool;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Класс вызывает ошибку outOfMemoryError c пометкой Metaspace
+ * Класс вызывает ошибку outOfMemoryError c пометкой Metaspace.
+ * Для получениея ошибки требуется выставить настройки JVM "-XX:MaxMetaspaceSize=20m".
  */
 @Slf4j
 public class OutOfMemoryMetaSpace {
